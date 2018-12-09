@@ -31,7 +31,7 @@
                 <div class="card-header">{{ __('Edit User') }}</div>
 
                 <div class="card-body">
-                    {!! Form::open(array('route' => ['users.update', $storedUser->id], 'method' => 'put')) !!}
+                    {!! Form::open(array('route' => ['users.update', $storedUser->id], 'method' => 'put', 'files' => true)) !!}
                         {!! Form::hidden('old_email', $storedUser->email) !!}
                         @include('users.form')
 

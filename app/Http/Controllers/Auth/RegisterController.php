@@ -54,6 +54,8 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:6', 'confirmed'],
             'gender' => 'required|string|in:male,female',
             'description' => 'required|string',
+            'photo' => 'sometimes|image',
+            'attachment' => 'sometimes|mimes:pdf,xls,xlsx,csv',
         ]);
     }
 
@@ -65,12 +67,20 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $user = new User;
+        $request = request();
+
+        $photo = $user->uploadFileIfExist($request, 'photo');
+        $attachment = $user->uploadFileIfExist($request, 'attachment');
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'gender' => $data['gender'],
             'description' => $data['description'],
+            'photo' => $photo,
+            'attachment' => $attachment
         ]);
     }
 }

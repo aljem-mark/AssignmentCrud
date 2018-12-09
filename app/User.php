@@ -2,7 +2,9 @@
 
 namespace App;
 
+use Storage;
 use App\Notifications\MailResetPasswordToken;
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -18,7 +20,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'gender', 'description'
+        'name', 'email', 'password', 'gender', 'description', 'photo', 'attachment'
     ];
 
     /**
@@ -34,6 +36,19 @@ class User extends Authenticatable implements MustVerifyEmail
         return $query->where('name', 'like', '%' . $q . '%')
             ->orWhere('email', 'like', '%' . $q . '%')
             ->orWhere('description', 'like', '%' . $q . '%');
+    }
+
+    public function uploadFileIfExist(Request $request, $f, $oldFilename = null) {
+        if ($request->hasFile($f)) {
+            $filename = uniqid() . "_" . $request->file($f)->getClientOriginalName();
+            $file = $request->file($f);
+            $file->storePubliclyAs('upload', $filename, 'public');
+            Storage::disk('public')->delete('upload/' . $oldFilename);
+        } else {
+            return $oldFilename;
+        }
+
+        return $filename;
     }
 
     /**

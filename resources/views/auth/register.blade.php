@@ -25,7 +25,7 @@
                 <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
-                    {!! Form::open(array('route' => 'register', 'method' => 'post')) !!}
+                    {!! Form::open(array('route' => 'register', 'method' => 'post', 'files' => true)) !!}
                         @include('users.form')
 
                         <div class="form-group row mb-0">

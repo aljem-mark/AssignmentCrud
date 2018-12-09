@@ -72,3 +72,26 @@
         {!! Form::textarea('description', (isset($storedUser->description) ? $storedUser->description : null), array('class' => 'form-control', 'id' => 'description', 'rows' => 4)) !!}
     </div>
 </div>
+
+<div class="form-group row">
+    {!! Form::label('photo', isset($storedUser->photo) ? __('Update Image') : __('Upload Image'), array('class' => 'col-md-4 col-form-label text-md-right')) !!}
+
+    <div class="col-md-6">
+        <div class="custom-file">
+            {!! Form::file('photo', array('class' => 'custom-file-input', 'id' => 'photo', 'type' => 'file')) !!}
+            {!! Form::label('photo', isset($storedUser->photo) ? $storedUser->photo : __('Choose file...'), array('class' => 'custom-file-label text-nowrap')) !!}
+        </div>
+        <img src="{{ isset($storedUser->photo) ? asset('storage/upload/' . $storedUser->photo) : '...' }}" alt="..." class="img-thumbnail img-fluid">
+    </div>
+</div>
+
+<div class="form-group row">
+    {!! Form::label('attachment', isset($storedUser->attachment) ? __('Update Attached File') : __('Attach File'), array('class' => 'col-md-4 col-form-label text-md-right')) !!}
+
+    <div class="col-md-6">
+        <div class="custom-file">
+            {!! Form::file('attachment', array('class' => 'custom-file-input', 'id' => 'attachment', 'type' => 'file')) !!}
+            {!! Form::label('file', isset($storedUser->attachment) ? $storedUser->attachment : __('Choose file...'), array('class' => 'custom-file-label text-nowrap')) !!}
+        </div>
+    </div>
+</div>

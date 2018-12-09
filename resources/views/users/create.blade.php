@@ -31,7 +31,7 @@
                 <div class="card-header">{{ __('Add New User') }}</div>
 
                 <div class="card-body">
-                    {!! Form::open(array('route' => 'users.store', 'method' => 'post')) !!}
+                    {!! Form::open(array('route' => 'users.store', 'method' => 'post', 'files' => true)) !!}
                         @include('users.form')
 
                         <div class="form-group row mb-0">

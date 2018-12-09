@@ -61,19 +61,26 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'email' => 'required|string|max:255|unique:users,email',
             'gender' => 'required|string|in:male,female',
             'description' => 'required|string',
+            'photo' => 'image',
+            'attachment' => 'mimes:pdf,xls,xlsx,csv',
         ]);
 
         $user = new User;
+
+        $photo = $user->uploadFileIfExist($request, 'photo');
+        $attachment = $user->uploadFileIfExist($request, 'attachment');
+
         $user->create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'gender' => $request->gender,
-                'description' => $request->description
+                'description' => $request->description,
+                'photo' => $photo,
+                'attachment' => $attachment
             ]);
 
         $request->session()->flash('success', __('User #' . $request->id . ' has been successfully added'));
@@ -119,9 +126,15 @@ class UserController extends Controller
             'email' => 'required|string|max:255|unique:users,email,'.$id,
             'gender' => 'required|string|in:male,female',
             'description' => 'required|string',
+            'photo' => 'image',
+            'file' => 'mimes:pdf,xls,xlsx,csv',
         ]);
 
+        $u = new User;
         $user = User::find($id);
+
+        $photo = $u->uploadFileIfExist($request, 'photo', $user->photo);
+        $attachment = $u->uploadFileIfExist($request, 'attachment', $user->attachment);
 
         $user->name = $request->name;
         $user->email = $request->email;
@@ -130,6 +143,8 @@ class UserController extends Controller
         }
         $user->gender = $request->gender;
         $user->description = $request->description;
+        $user->photo = $photo;
+        $user->attachment = $attachment;
 
         $user->save();
 
