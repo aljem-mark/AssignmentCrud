@@ -12,6 +12,7 @@
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}" defer></script>
     <script src="{{ mix('js/font-awesome.js') }}" defer></script>
+    <script src="{{ mix('js/bootstrap-editable.js') }}" defer></script>
     <script src="{{ mix('js/scripts.js') }}" defer></script>
 
     <!-- Fonts -->
@@ -20,6 +21,7 @@
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/bootstrap-editable.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">

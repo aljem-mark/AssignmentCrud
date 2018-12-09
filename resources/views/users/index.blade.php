@@ -115,15 +115,26 @@
                                             <img src="{{ isset($storedUser->photo) ? asset('storage/upload/' . $storedUser->photo) : '...' }}" alt="..." class="img-thumbnail img-fluid">
                                         </div>
                                     </td>
-                                    <td class="align-middle">{{ $storedUser->name }}</td>
-                                    <td class="align-middle">{{ $storedUser->email }}</td>
-                                    <td class="align-middle">{{ ucfirst($storedUser->gender) }}</td>
-                                    <td class="align-middle">{{ $storedUser->description }}</td>
+                                    <td class="align-middle">
+                                        <a class="apply-xeditable" href="//" data-type="text" data-pk="{{ $storedUser->id }}" data-name="name" data-url="{{ route('users.updatefield') }}" data-original-title="Enter Name">
+                                            {{ $storedUser->name }}</a>
+                                    </td>
+                                    <td class="align-middle">
+                                        <a class="apply-xeditable" href="//" data-type="email" data-pk="{{ $storedUser->id }}" data-name="gender" data-url="{{ route('users.updatefield') }}" data-original-title="Enter Email">
+                                            {{ $storedUser->email }}</a>
+                                    </td>
+                                    <td class="align-middle">
+                                        <a class="apply-xeditable gender" href="//" data-type="select" data-value="{{ $storedUser->gender }}" data-pk="{{ $storedUser->id }}" data-name="gender" data-url="{{ route('users.updatefield') }}" data-original-title="Select Gender">
+                                            {{ ucfirst($storedUser->gender) }}</a>
+                                    </td>
+                                    <td class="align-middle">
+                                        <a class="apply-xeditable" href="//" data-type="textarea" data-pk="{{ $storedUser->id }}" data-name="gender" data-url="{{ route('users.updatefield') }}" data-original-title="Enter Description">{{ $storedUser->description }}</a>
+                                    </td>
                                     <td class="align-middle">{{ $storedUser->attachment }}</td>
                                     <td class="align-middle">
                                         <div class="row">
                                             <div class="col-auto">
-                                                <a href="{{ route('users.edit', ['users' => $storedUser->id]) }}" class="btn btn-secondary btn-sm my-3" title="Quick Edit">
+                                                <a href="//" class="btn btn-secondary btn-sm my-3 toggle-editable" title="Quick Edit">
                                                     <i class="fas fa-edit"></i></a>
                                             </div>
 

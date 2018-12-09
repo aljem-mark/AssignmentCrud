@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -172,5 +173,36 @@ class UserController extends Controller
         $request->session()->flash('success', __('User #' . $id . ' has been successfully deleted'));
 
         return redirect()->route('users.index');
+    }
+
+    public function updateField(Request $request)
+    {
+        if($request->ajax()){
+            switch ( $request->get( 'name' ) ) {
+                case "name":
+                    $validationRules[ 'value' ] = 'required|string|max:255';
+                case "email":
+                    $validationRules[ 'value' ] = 'required|string|max:255|unique:users,email,'.$request->get('pk');
+                    break;
+                case "gender":
+                    $validationRules[ 'value' ] = 'required|string|in:male,female';
+                    break;
+                case "description":
+                    $validationRules[ 'value' ] = 'required|string';
+                    break;
+                default:
+                    break;
+            }
+
+            $validator = Validator::make($request->all(), $validationRules);
+
+            if ($validator->fails()) {
+                return response()->json(['errors'=>$validator->errors()->all()], 400);
+            }
+
+            $user = new User;
+            $user->find($request->get('pk'))->update([$request->get('name') => $request->get('value')]);
+            return response()->json(['success'=>true]);
+        }
     }
 }

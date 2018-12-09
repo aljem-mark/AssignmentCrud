@@ -1,6 +1,8 @@
 {
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
+    "/css/bootstrap-editable.css": "/css/bootstrap-editable.css",
     "/js/font-awesome.js": "/js/font-awesome.js",
-    "/js/scripts.js": "/js/scripts.js"
+    "/js/scripts.js": "/js/scripts.js",
+    "/js/bootstrap-editable.js": "/js/bootstrap-editable.js"
 }
