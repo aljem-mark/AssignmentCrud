@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\VerifiesEmails;
+use Illuminate\Routing\UrlGenerator;
 
 class UserController extends Controller
 {
@@ -84,9 +85,11 @@ class UserController extends Controller
                 'attachment' => $attachment
             ]);
 
-        $request->session()->flash('success', __('User #' . $request->id . ' has been successfully added'));
+        $request->session()->flash('success', __('User has been successfully added'));
 
-        return redirect()->route('users.index');
+        $route = ( url()->previous() == url('/users/onepage') ) ? 'users.onepage' : 'users.index';
+
+        return redirect()->route($route);
     }
 
     /**
@@ -155,7 +158,9 @@ class UserController extends Controller
             $this->resend($request);
         }
 
-        return redirect()->route('users.index');
+        $route = ( url()->previous() == url('/users/onepage') ) ? 'users.onepage' : 'users.index';
+
+        return redirect()->route($route);
     }
 
     /**
@@ -166,13 +171,19 @@ class UserController extends Controller
      */
     public function destroy(Request $request, $id)
     {
+        $u = new User;
         $user = User::find($id);
+
+        $u->deleteUploadedFile($user->photo);
+        $u->deleteUploadedFile($user->attachment);
 
         $user->delete();
 
         $request->session()->flash('success', __('User #' . $id . ' has been successfully deleted'));
 
-        return redirect()->route('users.index');
+        $route = ( url()->previous() == url('/users/onepage') ) ? 'users.onepage' : 'users.index';
+
+        return redirect()->route($route);
     }
 
     public function updateField(Request $request)
@@ -204,5 +215,24 @@ class UserController extends Controller
             $user->find($request->get('pk'))->update([$request->get('name') => $request->get('value')]);
             return response()->json(['success'=>true]);
         }
+    }
+
+    public function onePage(Request $request) {
+        $user = new User;
+        $s = $request->s ? $request->s : null;
+        $of = $request->order_field ? $request->order_field : 'id';
+        $od = $request->order_direction ? $request->order_direction : 'desc';
+        $users = $user->search($s)
+            ->orderBy($of, $od)
+            ->get();
+
+        $data = [
+            'users' => $users,
+            'order_field' => $of,
+            'order_direction' => $od,
+            's' => $s,
+        ];
+
+        return view('users.onepage')->with('data', $data);
     }
 }

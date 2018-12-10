@@ -91,7 +91,7 @@
     <div class="col-md-6">
         <div class="custom-file">
             {!! Form::file('attachment', array('class' => 'custom-file-input', 'id' => 'attachment', 'type' => 'file')) !!}
-            {!! Form::label('file', isset($storedUser->attachment) ? $storedUser->attachment : __('Choose file...'), array('class' => 'custom-file-label text-nowrap')) !!}
+            {!! Form::label('attachment', isset($storedUser->attachment) ? $storedUser->attachment : __('Choose file...'), array('class' => 'custom-file-label text-nowrap')) !!}
         </div>
     </div>
 </div>

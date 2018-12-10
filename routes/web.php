@@ -20,4 +20,5 @@ Route::get('/', function () {
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('/users/updatefield', 'UserController@updateField')->name('users.updatefield');
+Route::get('/users/onepage', 'UserController@onePage')->name('users.onepage');
 Route::resource('/users', 'UserController');

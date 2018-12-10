@@ -2,8 +2,48 @@ function toggleEditable(el) {
     $(el).closest('tr').find('.apply-xeditable').editable('toggleDisabled');
 }
 
-$(document).ready(function(){
+function updateOnepageUser(url, el) {
+    $("#onepage-form").attr('action', url);
+    $("#onepage-form-method").val('PUT');
+    $("#onepage-form-password").attr('disabled', 'disabled');
+    $("#onepage-form-password-confirm").attr('disabled', 'disabled');
+    var $row = $(el).closest('tr');
+    if( $row.find('.userlist-thumb').attr('data-val') ) {
+        $("#onepage-form-photo-label2").text($row.find('.userlist-thumb').attr('data-val'));
+        $("#onepage-form-img-thumbnail").attr('src', $row.find('.userlist-thumb').attr('data-img-src'));
+    } else {
+        $("#onepage-form-photo-label2").text("Choose file...");
+        $("#onepage-form-img-thumbnail").attr('src', '...');
+    }
+    if( $row.find('.userlist-attachment').text() ) {
+        $("#onepage-form-attachment-label2").text($row.find('.userlist-attachment').text());
+    } else {
+        $("#onepage-form-attachment-label2").text("Choose file...");
+    }
+    $("#onepage-form-name").val($row.find("[data-name='name']").text());
+    $("#onepage-form-email").val($row.find("[data-name='email']").text());
+    $("#onepage-form-old-email").val($row.find("[data-name='email']").text());
+    $("#onepage-form-description").val($row.find("[data-name='description']").text());
+    if( $row.find("[data-name='gender']").text() == 'Male' ) {
+        $("#onepage-form-gender-male").attr("checked", "checked");
+    } else {
+        $("#onepage-form-gender-female").attr("checked", "checked");
+    }
+}
 
+function formReset(url) {
+    $("#onepage-form").trigger("reset");
+    $("#onepage-form").attr('action', url);
+    $("#onepage-form-method").val('POST');
+    $("#onepage-form-old-email").val('');
+    $("#onepage-form-photo-label2").text("Choose file...");
+    $("#onepage-form-attachment-label2").text("Choose file...");
+    $("#onepage-form-img-thumbnail").attr('src', '...');
+    $("#onepage-form-password").removeAttr('disabled');
+    $("#onepage-form-password-confirm").removeAttr('disabled');
+}
+
+$(document).ready(function(){
     $.ajaxSetup({
         headers: {
             'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
@@ -77,4 +117,14 @@ $(document).ready(function(){
             $(this).closest('.form-group').find('.img-thumbnail').attr('src', '/assets/no_preview.png');
         }
     });
+
+    $('.onepage-edit').on('click', function(e) {
+        e.preventDefault();
+        updateOnepageUser($(this).attr('data-url'), this);
+    })
+
+    $('#onepage-form-cancel').on('click', function(e) {
+        e.preventDefault();
+        formReset($(this).attr('data-url'));
+    })
 });

@@ -51,6 +51,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $filename;
     }
 
+    public function deleteUploadedFile($f) {
+        Storage::disk('public')->delete('upload/' . $f);
+    }
+
     /**
      * Send a password reset email to the user
      */
