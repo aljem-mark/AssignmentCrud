@@ -3,7 +3,7 @@
 @section('content')
 <div class="container-fluid">
     <div class="row">
-        <div class="col-8 col-offset-4">
+        <div class="col-12">
 
             {{-- show success message --}}
             @if (Session::has('success'))
@@ -90,7 +90,7 @@
         </div>
 
         @if (count($data['users']) > 0)
-            <div class="col-lg-8">
+            <div class="col-12">
                 <div class="table-responsive-lg">
                     <table class="table table-hover">
                         <thead class="thead-dark">
@@ -160,119 +160,125 @@
                     </table>
                 </div>
             </div>
-            <div class="col-lg-4 mt-5">
-                {!! Form::open(array('route' => 'users.store', 'files' => true, 'id' => 'onepage-form')) !!}
-                    {!! Form::hidden('_method', 'POST', array('id' => 'onepage-form-method')) !!}
-                    {!! Form::hidden('old_email', null, array('id' => 'onepage-form-old-email')) !!}
-                    <div class="form-group row">
-                        {!! Form::label('onepage-form-name', __('Name'), array('class' => 'col-md-4 col-form-label text-md-right')) !!}
-
-                        <div class="col-md-6">
-                            <input id="onepage-form-name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
-
-                            @if ($errors->has('name'))
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('name') }}</strong>
-                                </span>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        {!! Form::label('onepage-form-email', __('E-Mail Address'), array('class' => 'col-md-4 col-form-label text-md-right')) !!}
-
-                        <div class="col-md-6">
-                            <input id="onepage-form-email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
-
-                            @if ($errors->has('email'))
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('email') }}</strong>
-                                </span>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        {!! Form::label('onepage-form-password', __('Password'), array('class' => 'col-md-4 col-form-label text-md-right')) !!}
-
-                        <div class="col-md-6">
-                            <input id="onepage-form-password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
-
-                            @if ($errors->has('password'))
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('password') }}</strong>
-                                </span>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        {!! Form::label('onepage-form-password-confirm', __('Confirm Password'), array('class' => 'col-md-4 col-form-label text-md-right')) !!}
-
-                        <div class="col-md-6">
-                            {!! Form::password('password_confirmation', array('class' => 'form-control', 'id' => 'onepage-form-password-confirm', 'required' => 'required')) !!}
-                        </div>
-                    </div>
-
-                    <div class="form-group row align-items-center">
-                        {!! Form::label('gender', __('Gender'), array('class' => 'col-md-4 col-form-label text-md-right')) !!}
-
-                        <div class="col-md-6">
-                            <div class="form-check form-check-inline">
-                                {!! Form::radio('gender', 'male', false, array('class' => 'form-check-input', 'id' => 'onepage-form-gender-male')) !!}
-                                {!! Form::label('onepage-form-gender-male', __('Male'), array('class' => 'form-check-label')) !!}
-                            </div>
-                            <div class="form-check form-check-inline">
-                                {!! Form::radio('gender', 'female', false, array('class' => 'form-check-input', 'id' => 'onepage-form-gender-female')) !!}
-                                {!! Form::label('onepage-form-gender-female', __('Female'), array('class' => 'form-check-label')) !!}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        {!! Form::label('onepage-form-description', __('Description'), array('class' => 'col-md-4 col-form-label text-md-right')) !!}
-
-                        <div class="col-md-6">
-                            {!! Form::textarea('description', null, array('class' => 'form-control', 'id' => 'onepage-form-description', 'rows' => 4)) !!}
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        {!! Form::label('onepage-form-photo', __('Upload Image'), array('class' => 'col-md-4 col-form-label text-md-right')) !!}
-
-                        <div class="col-md-6">
-                            <div class="custom-file">
-                                {!! Form::file('photo', array('class' => 'custom-file-input', 'id' => 'onepage-form-photo', 'type' => 'file')) !!}
-                                {!! Form::label('onepage-form-photo', __('Choose file...'), array('class' => 'custom-file-label text-nowrap', 'id' => 'onepage-form-photo-label2')) !!}
-                            </div>
-                            <img id="onepage-form-img-thumbnail" src="..." alt="..." class="img-thumbnail img-fluid">
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        {!! Form::label('onepage-form-attachment', __('Attach File'), array('class' => 'col-md-4 col-form-label text-md-right')) !!}
-
-                        <div class="col-md-6">
-                            <div class="custom-file">
-                                {!! Form::file('attachment', array('class' => 'custom-file-input', 'id' => 'onepage-form-attachment', 'type' => 'file')) !!}
-                                {!! Form::label('onepage-form-attachment', __('Choose file...'), array('class' => 'custom-file-label text-nowrap', 'id' => 'onepage-form-attachment-label2')) !!}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group row mb-0">
-                        <div class="col-md-6 offset-md-4">
-                            <button type="submit" class="btn btn-primary" id="onepage-form-submit">
-                                {{ __('Submit') }}
-                            </button>
-                            <button type="button" class="btn btn-danger" id="onepage-form-cancel" data-url="{{ route('users.store') }}">
-                                {{ __('Cancel') }}
-                            </button>
-                        </div>
-                    </div>
-                {!! Form::close() !!}
-            </div>
         @endif
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-8 my-5">
+            <div class="card">
+                <div class="card-body">
+                    {!! Form::open(array('route' => 'users.store', 'files' => true, 'id' => 'onepage-form')) !!}
+                        {!! Form::hidden('_method', 'POST', array('id' => 'onepage-form-method')) !!}
+                        {!! Form::hidden('old_email', null, array('id' => 'onepage-form-old-email')) !!}
+                        <div class="form-group row">
+                            {!! Form::label('onepage-form-name', __('Name'), array('class' => 'col-md-4 col-form-label text-md-right')) !!}
+
+                            <div class="col-md-6">
+                                <input id="onepage-form-name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
+
+                                @if ($errors->has('name'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('name') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            {!! Form::label('onepage-form-email', __('E-Mail Address'), array('class' => 'col-md-4 col-form-label text-md-right')) !!}
+
+                            <div class="col-md-6">
+                                <input id="onepage-form-email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
+
+                                @if ($errors->has('email'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            {!! Form::label('onepage-form-password', __('Password'), array('class' => 'col-md-4 col-form-label text-md-right')) !!}
+
+                            <div class="col-md-6">
+                                <input id="onepage-form-password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+
+                                @if ($errors->has('password'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            {!! Form::label('onepage-form-password-confirm', __('Confirm Password'), array('class' => 'col-md-4 col-form-label text-md-right')) !!}
+
+                            <div class="col-md-6">
+                                {!! Form::password('password_confirmation', array('class' => 'form-control', 'id' => 'onepage-form-password-confirm', 'required' => 'required')) !!}
+                            </div>
+                        </div>
+
+                        <div class="form-group row align-items-center">
+                            {!! Form::label('gender', __('Gender'), array('class' => 'col-md-4 col-form-label text-md-right')) !!}
+
+                            <div class="col-md-6">
+                                <div class="form-check form-check-inline">
+                                    {!! Form::radio('gender', 'male', false, array('class' => 'form-check-input', 'id' => 'onepage-form-gender-male')) !!}
+                                    {!! Form::label('onepage-form-gender-male', __('Male'), array('class' => 'form-check-label')) !!}
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    {!! Form::radio('gender', 'female', false, array('class' => 'form-check-input', 'id' => 'onepage-form-gender-female')) !!}
+                                    {!! Form::label('onepage-form-gender-female', __('Female'), array('class' => 'form-check-label')) !!}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            {!! Form::label('onepage-form-description', __('Description'), array('class' => 'col-md-4 col-form-label text-md-right')) !!}
+
+                            <div class="col-md-6">
+                                {!! Form::textarea('description', null, array('class' => 'form-control', 'id' => 'onepage-form-description', 'rows' => 4)) !!}
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            {!! Form::label('onepage-form-photo', __('Upload Image'), array('class' => 'col-md-4 col-form-label text-md-right')) !!}
+
+                            <div class="col-md-6">
+                                <div class="custom-file">
+                                    {!! Form::file('photo', array('class' => 'custom-file-input', 'id' => 'onepage-form-photo', 'type' => 'file')) !!}
+                                    {!! Form::label('onepage-form-photo', __('Choose file...'), array('class' => 'custom-file-label text-nowrap', 'id' => 'onepage-form-photo-label2')) !!}
+                                </div>
+                                <img id="onepage-form-img-thumbnail" src="..." alt="..." class="img-thumbnail img-fluid">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            {!! Form::label('onepage-form-attachment', __('Attach File'), array('class' => 'col-md-4 col-form-label text-md-right')) !!}
+
+                            <div class="col-md-6">
+                                <div class="custom-file">
+                                    {!! Form::file('attachment', array('class' => 'custom-file-input', 'id' => 'onepage-form-attachment', 'type' => 'file')) !!}
+                                    {!! Form::label('onepage-form-attachment', __('Choose file...'), array('class' => 'custom-file-label text-nowrap', 'id' => 'onepage-form-attachment-label2')) !!}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-0">
+                            <div class="col-md-6 offset-md-4">
+                                <button type="submit" class="btn btn-primary" id="onepage-form-submit">
+                                    {{ __('Submit') }}
+                                </button>
+                                <button type="button" class="btn btn-danger" id="onepage-form-cancel" data-url="{{ route('users.store') }}">
+                                    {{ __('Cancel') }}
+                                </button>
+                            </div>
+                        </div>
+                    {!! Form::close() !!}
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 @endsection
